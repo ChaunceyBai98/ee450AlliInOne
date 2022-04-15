@@ -1,0 +1,16 @@
+echo "asd";
+./clientA Luke
+./clientA Ali
+./clientA Victor
+./clientA Racheal
+./clientA John
+./clientA Chinmay
+./clientA Ben
+./clientB Luke
+./clientB Ali
+./clientB Victor
+./clientB Racheal
+./clientB John
+./clientB Chinmay
+./clientB Ben
+echo "asd";
