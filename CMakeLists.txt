@@ -5,12 +5,12 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_executable(AlliInOne main.cpp)
 
-add_executable(ClientA ClientA.cpp util/transferItem.cpp util/transferItem.h
+add_executable(ClientA clientA.cpp util/transferItem.cpp util/transferItem.h
         util/fileOperation.cpp util/fileOperation.h
         util/tcpHelper.cpp util/tcpHelper.h util/udpHelper.cpp
         util/udpHelper.h)
 
-add_executable(ClientB ClientB.cpp util/transferItem.cpp util/transferItem.h
+add_executable(ClientB clientB.cpp util/transferItem.cpp util/transferItem.h
         util/fileOperation.cpp util/fileOperation.h
         util/tcpHelper.cpp util/tcpHelper.h util/udpHelper.cpp
         util/udpHelper.h)

@@ -1,11 +1,9 @@
-echo "asd";
-./ClientA Ali Ben 615
-./ClientB Ben Ali 615
-./ClientA Ali Ben 615
-./ClientB Ben Ali 615
-./ClientA Ali Ben 615
-./ClientB Ben Ali 615
-./ClientA Ali Ben 615
-./ClientB Ben Ali 615
 
-echo "asd";
+#./clientA Ali Ben 615
+./clientB Ben Ali 615
+#./clientA Ali Ben 615
+#./clientB Ben Ali 615
+#./clientA Ali Ben 615
+#./clientB Ben Ali 615
+#./clientA Ali Ben 615
+#./clientB Ben Ali 615

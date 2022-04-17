@@ -1,2 +1,2 @@
-./ClientA TXLIST
-./ClientB TXLIST
+#./clientA TXLIST
+./clientB TXLIST
