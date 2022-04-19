@@ -19,7 +19,6 @@ class tcpHelper {
 
 public:
     int tcpSocket();
-    int tcpConnect(int sockfd, char * ip,char * port);
     int tcpBind(int socketfd, int port);
     int tcpListen(int socketfd);
 };

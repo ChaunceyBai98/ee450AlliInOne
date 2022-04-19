@@ -30,10 +30,6 @@ int socketFd;
 int main()
 {
     signal(SIGINT, signalHandler);
-//    auto* configFileOperator = new fileOperation("../config.txt");
-//    vector<string> configs = configFileOperator->readConfig();
-//    int port = atoi(configs[0].c_str());
-//    string dataPath = configs[1];
     int port = 21844;
     string dataPath = "./block1.txt";
     auto* fileOperator = new fileOperation(dataPath);
