@@ -23,7 +23,7 @@ e.
 check: check <username>
 transfer: transfer <sender> <receiver> <amount>
 TXLIST: txlist
-stats: stas <username>
+stats: stats <username>
 BOTH_USERS_NOT_EXIST : "-1"
 SENDER_NOT_EXIST : "-2"
 RECEIVER_NOT_EXIST : "-3"
