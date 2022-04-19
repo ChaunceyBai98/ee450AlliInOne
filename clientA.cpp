@@ -39,7 +39,7 @@ int main(int argc,char *argv[]) {
 
     if(argc == 2){
         if(strcmp(argv[1],"TXLIST")==0){
-            //send TXLIST
+            //send txlist
             string command("txlist");
             strcpy(buffer,command.c_str());
             send(socketfd,buffer,strlen(buffer),0);

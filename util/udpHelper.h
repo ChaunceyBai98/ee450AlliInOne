@@ -19,8 +19,6 @@ class udpHelper {
 public:
     int udpSocket();
     int udpBind(int socketFd, int port);
-    //todo:not done
-    int getRandomPort();
     sockaddr_in ipPortTransfer(hostent* h, int port);
 };
 
