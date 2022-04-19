@@ -2,6 +2,7 @@
 // Created by student on 3/31/22.
 //
 
+//The code in this file is partially referenced from http://www.freecplus.net/0047ac4059b14d52bcc1d4df6ae8bb83.html
 #include "tcpHelper.h"
 int tcpHelper::tcpSocket(){
     int sockfd;

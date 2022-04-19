@@ -1,7 +1,6 @@
 //
 // Created by student on 4/4/22.
 //
-//todo: 打包成文件提交的时候 注意修改serverA,B,C为了调试方面设置的config文件以及相关输入输出,注意修改clientB的cout
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <iostream>
@@ -94,15 +93,6 @@ int main(int argc,char *argv[]) {
         } else{
             //working well
             cout<<argv[1]<<" successfully transferred "<<argv[3]<<" alicoins to "<<argv[2]<<"."<<endl;
-//            recv(socketfd, buffer, BUFFER_SIZE, 0);
-//            cout<<buffer<<endl;
-//            //server closed clientFd
-//            string command("check ");
-//            command.append(argv[1]);
-//            strcpy(buffer,command.c_str());
-//            send(socketfd,buffer,BUFFER_SIZE,0);
-//            memset(buffer,0,BUFFER_SIZE);
-//            recv(socketfd, buffer, BUFFER_SIZE, 0);
             cout<<"The current balance of "<<argv[1]<<" is : "<<buffer<<" alicoins."<<endl;
         }
     }
