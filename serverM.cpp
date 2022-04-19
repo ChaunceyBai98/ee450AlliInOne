@@ -201,9 +201,9 @@ int main()
             //4th stats: stats username
             //              0   1
             //only related item will be received
-            vector<transferItem*> itemsA = getAllItems(udpSocketfd, commandBuffer, infoBuffer, servA, socklen,"A ");
-            vector<transferItem*> itemsB = getAllItems(udpSocketfd, commandBuffer, infoBuffer, servB, socklen,"B ");
-            vector<transferItem*> itemsC = getAllItems(udpSocketfd, commandBuffer, infoBuffer, servC, socklen,"C ");
+            vector<transferItem*> itemsA = getAllItems(udpSocketfd, commandBuffer, infoBuffer, servA, socklen,"A");
+            vector<transferItem*> itemsB = getAllItems(udpSocketfd, commandBuffer, infoBuffer, servB, socklen,"B");
+            vector<transferItem*> itemsC = getAllItems(udpSocketfd, commandBuffer, infoBuffer, servC, socklen,"C");
             vector<transferItem*> allItems;
             allItems.insert(allItems.end(),itemsA.begin(),itemsA.end());
             allItems.insert(allItems.end(),itemsB.begin(),itemsB.end());
