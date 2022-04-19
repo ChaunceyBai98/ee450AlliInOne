@@ -12,7 +12,7 @@
 #include <netdb.h>
 #include "util/tcpHelper.h"
 #include "util/udpHelper.h"
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 2048
 #define BOTH_USERS_NOT_EXIST "-1"
 #define SENDER_NOT_EXIST "-2"
 #define RECEIVER_NOT_EXIST "-3"
@@ -20,7 +20,7 @@
 #define USER_NOT_EXIST "-5"
 using namespace std;
 int main(int argc,char *argv[]) {
-    char buffer[1024];
+    char buffer[BUFFER_SIZE];
     tcpHelper* tcphelper = new tcpHelper();
     int socketfd = tcphelper->tcpSocket();
     struct hostent* h;

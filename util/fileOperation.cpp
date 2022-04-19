@@ -8,7 +8,7 @@ vector<transferItem*> fileOperation:: readFile(){
     vector<transferItem*> items;
     ifstream  fin;
     fin.open(path.data(),ios::in);
-    char buf[1024] = {0};
+    char buf[2048] = {0};
     int i = -1;
     int tNO;
     int amount;

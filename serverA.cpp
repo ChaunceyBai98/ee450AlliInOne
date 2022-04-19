@@ -11,7 +11,7 @@
 #include "util/udpHelper.h"
 #include <csignal>
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 2048
 using namespace std;
 string selfIdentify(int port){
     string server;
@@ -46,7 +46,7 @@ int main()
     int  socklen=sizeof(struct sockaddr_in);
     struct sockaddr_in clientaddr{};
 
-    char buffer[1024];
+    char buffer[BUFFER_SIZE];
     while (true)
     {
         memset(buffer, 0, BUFFER_SIZE);

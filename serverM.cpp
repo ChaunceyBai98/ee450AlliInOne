@@ -20,7 +20,7 @@
 #include <csignal>
 #include "util/stasInfo.h"
 
-#define BUFFERSIZE 1024
+#define BUFFERSIZE 2048
 #define BOTH_USERS_NOT_EX "-1"
 #define SENDER_NOT_EX "-2"
 #define RECEIVER_NOT_EX "-3"
@@ -48,8 +48,8 @@ int main()
     signal(SIGINT, signalHandler);
     auto tcphelper = new tcpHelper();
     auto udphelper = new udpHelper();
-    char commandBuffer[1024];
-    char infoBuffer[1024];
+    char commandBuffer[BUFFERSIZE];
+    char infoBuffer[BUFFERSIZE];
     int socklen=sizeof(struct sockaddr_in);
     vector<transferItem*> itemsA;
     vector<transferItem*> itemsB;
@@ -119,7 +119,7 @@ int main()
             //explanation: serverM has to check if the transition can be executed
             cout << "The main server received from " << params[1] << " to transfer " << params[3] << " coins to " << params[2] << " using TCP over port " << tcpPort << "." << endl;
             int tryAmount = atoi(params[3].c_str());
-            char tempBuffer[1024];
+            char tempBuffer[BUFFERSIZE];
 
             //get balance
             strcpy(tempBuffer,commandBuffer);
