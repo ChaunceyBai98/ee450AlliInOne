@@ -58,7 +58,11 @@ int main(int argc,char *argv[]) {
 
             cout<<argv[1]<<" sent a balance enquiry request to the main server."<<endl;
             recv(socketfd, buffer, BUFFER_SIZE, 0);
-            cout<<"The current balance of "<<argv[1]<<" is : "<<buffer<<" alicoins."<<endl;
+            if(strcmp(buffer,USER_NOT_EXIST)==0){
+                cout<<"Unable to proceed with the request as "<<argv[1]<<" is not part of the network. "<<endl;
+            }else{
+                cout<<"The current balance of "<<argv[1]<<" is : "<<buffer<<" alicoins."<<endl;
+            }
 
         }
     }
@@ -111,10 +115,10 @@ int main(int argc,char *argv[]) {
         command.append(argv[1]);
         strcpy(buffer,command.c_str());
         send(socketfd,buffer,strlen(buffer),0);
-        cout<<argv[1]<<" sent a statistics enquiry request to the main server."<<endl;
+        cout<<argv[1]<<" sent a sorted list request to the main server."<<endl;
         recv(socketfd, buffer, BUFFER_SIZE, 0);
         if(strcmp(buffer, USER_NOT_EXIST) == 0){
-            cout<<"stats user not exist"<<endl;
+            cout<<"Unable to proceed with the request as "<<argv[1]<<" is not part of the network. "<<endl;
         }else{
             cout<<argv[1]<<" statistics are the following.:"<<endl<<"Rank--Username--NumofTransacions--Total"<<endl;
             cout<<buffer<<endl;

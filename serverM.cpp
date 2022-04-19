@@ -38,7 +38,7 @@ bool compTransferItem(transferItem* a, transferItem* b){
     return a->getTransferNo()<b->getTransferNo();
 }
 bool compStasInfo(stasInfo* a, stasInfo* b){
-    return a->getNumOfTrans()<b->getNumOfTrans();
+    return a->getNumOfTrans() > b->getNumOfTrans();
 }
 void signalHandler(int signum);
 int listenfd;
@@ -66,19 +66,19 @@ int main()
     sockaddr_in servC = udphelper->ipPortTransfer(h,23844);
     sockaddr_in servs[3] = {servA,servB,servC};
 
-    int port;
+    int tcpPort;
     string clientName;
     cout<<"The main server is up and running."<<endl;
     if(pid = fork() > 0){
         //parent process listen to 25844
-        port = 25844;
+        tcpPort = 25844;
         clientName = "A";
     }else{
         //child process listen to 26844
-        port = 26844;
+        tcpPort = 26844;
         clientName = "B";
     }
-    tcphelper->tcpBind(listenfd = tcphelper->tcpSocket(), port);
+    tcphelper->tcpBind(listenfd = tcphelper->tcpSocket(), tcpPort);
 
     tcphelper->tcpListen(listenfd);
     int  clientfd;
@@ -101,20 +101,23 @@ int main()
         }
         if(params[0] == "check"){
             //1st check wallet: check someone
-            cout<<"The main server received input="<<params[1]<<" from the client using TCP over port "<<port<<"."<<endl;
+            //                    0     1
+            cout << "The main server received input=" << params[1] << " from the client using TCP over port " << tcpPort << "." << endl;
             int balance = checkAll(udpSocketfd, commandBuffer, infoBuffer,params[1], servA,servB,servC, socklen);
             if(balance == -1){
                 strcpy(infoBuffer, USER_NOT_EX);
+                send(clientfd,infoBuffer,BUFFERSIZE,0);
+                cout<<"Unable to proceed with the request as "<<params[1]<<" is not part of the network. "<<endl;
             }else{
                 strcpy(infoBuffer, to_string(balance).c_str());
+                send(clientfd,infoBuffer,BUFFERSIZE,0);
+                cout<<"The main server sent the current balance to client "<<clientName<<"."<<endl;
             }
-            send(clientfd,infoBuffer,BUFFERSIZE,0);
-            cout<<"The main server sent the current balance to client "<<clientName<<"."<<endl;
         }else if(params[0] == "transfer"){
             //2nd transfer: transfer sender receiver amount
             //                 0        1       2       3
             //explanation: serverM has to check if the transition can be executed
-            cout<<"The main server received from "<< params[1] <<" to transfer "<<params[3]<< " coins to "<< params[2] <<" using TCP over port "<<port<<"."<<endl;
+            cout << "The main server received from " << params[1] << " to transfer " << params[3] << " coins to " << params[2] << " using TCP over port " << tcpPort << "." << endl;
             int tryAmount = atoi(params[3].c_str());
             char tempBuffer[1024];
 
@@ -172,7 +175,7 @@ int main()
                 cout<<"The main server sent a request to server "<<writeToServer<<"."<<endl;
                 //receive "done" info from serve#
                 recvfrom(udpSocketfd, infoBuffer, BUFFERSIZE, 0, (struct sockaddr *)&servs[randomNo],(socklen_t *)&socklen);
-                cout<<"The main server received the feedback from server " <<writeToServer<< " using UDP over port 24844."<<endl;
+                cout<<"The main server received the feedback from server " <<writeToServer<< " using UDP over port "<<htons(servs[randomNo].sin_port)<<"."<<endl;
                 //send new balance to client
                 int newBalence = senderBalence - tryAmount;
                 strcpy(infoBuffer, to_string(newBalence).c_str());
@@ -238,13 +241,13 @@ vector<stasInfo*> makeStas(vector<transferItem*> allItems,string whoToStas){
                 if(info->getUsername() == item->getSender()){
                     // this user is already recorded
                     info->setNumOfTrans(info->getNumOfTrans() + 1);
-                    info->setTransAmount(info->getTransAmount() - item->getAmount());
+                    info->setTransAmount(info->getTransAmount() + item->getAmount());
                     ifRecorded = true;
                     break;
                 }
             }
             if(!ifRecorded){
-                stasInfo* a = new stasInfo(item->getSender(),1,-item->getAmount());
+                stasInfo* a = new stasInfo(item->getSender(),1,item->getAmount());
                 stasInfos.push_back(a);
             }
         } else if(item->getSender() == whoToStas){
@@ -253,13 +256,13 @@ vector<stasInfo*> makeStas(vector<transferItem*> allItems,string whoToStas){
                 if(info->getUsername() == item->getReceiver()){
                     // this user is already recorded
                     info->setNumOfTrans(info->getNumOfTrans() + 1);
-                    info->setTransAmount(info->getTransAmount() + item->getAmount());
+                    info->setTransAmount(info->getTransAmount() - item->getAmount());
                     ifRecorded = true;
                     break;
                 }
             }
             if(!ifRecorded){
-                stasInfo* a = new stasInfo(item->getReceiver(),1,item->getAmount());
+                stasInfo* a = new stasInfo(item->getReceiver(),1,-item->getAmount());
                 stasInfos.push_back(a);
             }
         }
@@ -279,7 +282,7 @@ vector<transferItem*> getAllItems(int udpSocketfd, char *commandBuffer, char *in
         recvfrom(udpSocketfd, infoBuffer, BUFFERSIZE, 0, (struct sockaddr *)&serv,(socklen_t *)&socklen);
         string a(infoBuffer);
         if(a=="done"){
-            cout<<"The main server received transactions from Server "<<serverName <<" using UDP over port 24844."<<endl;
+            cout<<"The main server received transactions from Server "<<serverName <<" using UDP over port "<<htons(serv.sin_port)<<"."<<endl;
             break;
         }
         transferItem* b = new transferItem(a);
@@ -296,7 +299,7 @@ vector<transferItem*> check(int udpSocketfd, char *commandBuffer, char *infoBuff
         recvfrom(udpSocketfd, infoBuffer, BUFFERSIZE, 0, (struct sockaddr *)&serv,(socklen_t *)&socklen);
         string a(infoBuffer);
         if(a=="done"){
-            cout<<"The main server received transactions from Server "<<serverName<<" using UDP over port 24844."<<endl;
+            cout<<"The main server received transactions from Server "<<serverName<<" using UDP over port "<<htons(serv.sin_port)<<endl;
             break;
         }
         transferItem* b = new transferItem(a);
