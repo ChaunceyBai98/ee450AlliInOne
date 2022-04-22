@@ -102,12 +102,12 @@ int main()
         if(params[0] == "check"){
             //1st check wallet: check someone
             //                    0     1
-            cout << "The main server received input=" << params[1] << " from the client using TCP over port " << tcpPort << "." << endl;
+            cout << "The main server received input=\"" << params[1] << "\" from the client using TCP over port " << tcpPort << "." << endl;
             int balance = checkAll(udpSocketfd, commandBuffer, infoBuffer,params[1], servA,servB,servC, socklen);
             if(balance == -1){
                 strcpy(infoBuffer, USER_NOT_EX);
                 send(clientfd,infoBuffer,BUFFERSIZE,0);
-                cout<<"Unable to proceed with the request as "<<params[1]<<" is not part of the network. "<<endl;
+                cout<<"Unable to proceed with the request as \""<<params[1]<<"\" is not part of the network. "<<endl;
             }else{
                 strcpy(infoBuffer, to_string(balance).c_str());
                 send(clientfd,infoBuffer,BUFFERSIZE,0);
@@ -117,7 +117,7 @@ int main()
             //2nd transfer: transfer sender receiver amount
             //                 0        1       2       3
             //explanation: serverM has to check if the transition can be executed
-            cout << "The main server received from " << params[1] << " to transfer " << params[3] << " coins to " << params[2] << " using TCP over port " << tcpPort << "." << endl;
+            cout << "The main server received from \"" << params[1] << "\" to transfer " << params[3] << " coins to \"" << params[2] << "\" using TCP over port " << tcpPort << "." << endl;
             int tryAmount = atoi(params[3].c_str());
             char tempBuffer[BUFFERSIZE];
 

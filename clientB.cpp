@@ -39,11 +39,11 @@ int main(int argc,char *argv[]) {
 
     if(argc == 2){
         if(strcmp(argv[1],"TXLIST")==0){
-            //send TXLIST
+            //send txlist
             string command("txlist");
             strcpy(buffer,command.c_str());
             send(socketfd,buffer,strlen(buffer),0);
-            cout<<"ClientB sent a statistics enquiry request to the main server."<<endl;
+            cout<<"\"ClientB\" sent a sorted list request to the main server."<<endl;
             recv(socketfd, buffer, BUFFER_SIZE, 0);
             if(strcmp(buffer,"done")==0){
                 cout<<"File produced."<<endl;
@@ -55,14 +55,13 @@ int main(int argc,char *argv[]) {
             strcpy(buffer,command.c_str());
             send(socketfd,buffer,strlen(buffer),0);
 
-            cout<<argv[1]<<" sent a balance enquiry request to the main server."<<endl;
+            cout<<"\""<<argv[1]<<"\" sent a balance enquiry request to the main server."<<endl;
             recv(socketfd, buffer, BUFFER_SIZE, 0);
             if(strcmp(buffer,USER_NOT_EXIST)==0){
-                cout<<"Unable to proceed with the request as "<<argv[1]<<" is not part of the network. "<<endl;
+                cout<<"Unable to proceed with the request as \""<<argv[1]<<"\" is not part of the network. "<<endl;
             }else{
-                cout<<"The current balance of "<<argv[1]<<" is : "<<buffer<<" alicoins."<<endl;
+                cout<<"The current balance of \""<<argv[1]<<"\" is : "<<buffer<<" alicoins."<<endl;
             }
-
         }
     }
     if(argc == 4){
@@ -78,26 +77,26 @@ int main(int argc,char *argv[]) {
         strcpy(buffer,command.c_str());
         //1 send transfer sender receiver amount
         send(socketfd,buffer,strlen(buffer),0);
-        cout<<argv[1]<<" has requested to transfer " <<argv[3]<<" coins to "<<argv[2]<<"."<<endl;
+        cout<<"\""<<argv[1]<<"\" has requested to transfer " <<argv[3]<<" coins to \""<<argv[2]<<"\"."<<endl;
         recv(socketfd, buffer, BUFFER_SIZE, 0);
         if(strcmp(buffer, BOTH_USERS_NOT_EXIST) == 0){
-            cout<<"Unable to proceed with the transaction as "<< argv[1]<<" and "<<argv[2]<<" are not part of the network"<<endl;
+            cout<<"Unable to proceed with the transaction as \""<< argv[1]<<"\" and \""<<argv[2]<<"\" are not part of the network"<<endl;
         }else if(strcmp(buffer, SENDER_NOT_EXIST) == 0){
-            cout<<"Unable to proceed with the transaction as "<<argv[1]<<" is not part of the network."<<endl;
+            cout<<"Unable to proceed with the transaction as \""<<argv[1]<<"\" is not part of the network."<<endl;
         }else if(strcmp(buffer, RECEIVER_NOT_EXIST) == 0){
-            cout<<"Unable to proceed with the transaction as "<<argv[2]<<" is not part of the network."<<endl;
+            cout<<"Unable to proceed with the transaction as \""<<argv[2]<<"\" is not part of the network."<<endl;
         } else if(strcmp(buffer, INSUFFICIENT_BALANCE) == 0){
-            cout<<argv[1]<<" was unable to transfer "<<argv[3]<<" alicoins to "<<argv[2]<<" because of insufficient balance."<<endl;
+            cout<<"\""<<argv[1]<<"\" was unable to transfer "<<argv[3]<<" alicoins to \""<<argv[2]<<"\" because of insufficient balance."<<endl;
             recv(socketfd, buffer, BUFFER_SIZE, 0);
-            cout<<"The current balance of "<<argv[1]<<" is : "<<buffer<<" alicoins."<<endl;
+            cout<<"The current balance of \""<<argv[1]<<"\" is : "<<buffer<<" alicoins."<<endl;
         } else{
             //working well
-            cout<<argv[1]<<" successfully transferred "<<argv[3]<<" alicoins to "<<argv[2]<<"."<<endl;
-            cout<<"The current balance of "<<argv[1]<<" is : "<<buffer<<" alicoins."<<endl;
+            cout<<"\""<<argv[1]<<"\" successfully transferred "<<argv[3]<<" alicoins to \""<<argv[2]<<"\"."<<endl;
+            cout<<"The current balance of \""<<argv[1]<<"\" is : "<<buffer<<" alicoins."<<endl;
         }
     }
     if(argc == 3){
-        //./ClientB <usernameA> stats
+        //./clientB <usernameA> stats
         //  0           1         2
         //send stats argv[1]
         string command(argv[2]);
@@ -105,12 +104,12 @@ int main(int argc,char *argv[]) {
         command.append(argv[1]);
         strcpy(buffer,command.c_str());
         send(socketfd,buffer,strlen(buffer),0);
-        cout<<argv[1]<<" sent a sorted list request to the main server."<<endl;
+        cout<<"\"ClientB\" sent a statistics enquiry request to the main server."<<endl;
         recv(socketfd, buffer, BUFFER_SIZE, 0);
         if(strcmp(buffer, USER_NOT_EXIST) == 0){
-            cout<<"Unable to proceed with the request as "<<argv[1]<<" is not part of the network. "<<endl;
+            cout<<"Unable to proceed with the request as \""<<argv[1]<<"\" is not part of the network. "<<endl;
         }else{
-            cout<<argv[1]<<" statistics are the following.:"<<endl<<"Rank--Username--NumofTransacions--Total"<<endl;
+            cout<<"\""<<argv[1]<<"\" statistics are the following.:"<<endl<<"Rank--Username--NumofTransacions--Total"<<endl;
             cout<<buffer<<endl;
             while (1){
                 recv(socketfd, buffer, BUFFER_SIZE, 0);
